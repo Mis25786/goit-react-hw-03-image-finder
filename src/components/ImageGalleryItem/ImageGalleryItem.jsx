@@ -1,8 +1,6 @@
 import css from './ImageGalleryItem.module.css';
 
 export default function ImageGalleryItem({ arrayResult }) {
-  console.log('arrayResultItem :>> ', arrayResult);
-
   return arrayResult.map(el => (
     <li key={el.id} className={css['imageGalleryItem']}>
       <img src={el.webformatURL} alt={el.tags} width="240" />

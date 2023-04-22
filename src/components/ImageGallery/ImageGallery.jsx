@@ -2,6 +2,7 @@ import { Component } from 'react';
 // import { fetchSearch } from '../../services/Api';
 import { toast } from 'react-toastify';
 import API from '../../services/Api';
+import Button from 'components/Button';
 
 import ImageGalleryItem from '../ImageGalleryItem/';
 import Loader from '../Loader';
@@ -13,11 +14,21 @@ export default class ImageGallery extends Component {
     searchResult: null,
     error: null,
     loading: false,
+    page: 1,
   };
 
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevProps.formSubmit;
     const nextName = this.props.formSubmit;
+    const currPage = this.state.page;
+    const prevPage = prevState.page;
+    // console.log(prevName);
+    // console.log(nextName);
+    // console.log(prevProps);
+    // console.log(prevState);
+    // console.log(currPage);
+    // console.log(prevPage);
+    console.log('this.props :>> ', this.props);
 
     if (prevName !== nextName) {
       this.setState({ loading: true, searchResult: null });
@@ -38,31 +49,74 @@ export default class ImageGallery extends Component {
 
         {loading && <Loader />}
 
-        {error && toast.error(`Нічого не знайдено по запиту ${searchResult}`)}
+        {error &&
+          toast.error(
+            `Sorry, there are no images matching your search query. Please try again.`
+          )}
+        {/* {error && toast.error(`Nothing was found for the query ${searchResult}`)} */}
 
         {searchResult && (
           <ul className={css['gallery']}>
             {<ImageGalleryItem arrayResult={searchResult} />}
           </ul>
         )}
+        <Button />
       </>
     );
   }
 }
+// import { Component } from 'react';
+// // import { fetchSearch } from '../../services/Api';
+// import { toast } from 'react-toastify';
+// import API from '../../services/Api';
 
-// if (status === 'idle') {
-//   return <div>Введіть запит щоб ви хотіли знайти</div>;
-// }
-// if (status === 'pending') {
-//   return <p>Loading...</p>;
-// }
-// if (status === 'rejected') {
-//   return <p>{error.message}</p>;
-// }
-// if (status === 'resolved') {
-//   return (
-//     <ul className={css['gallery']}>
-//       {<ImageGalleryItem arrayResult={searchResult} />}
-//     </ul>
-//   );
+// import ImageGalleryItem from '../ImageGalleryItem/';
+// import Loader from '../Loader';
+
+// import css from './ImageGallery.module.css';
+
+// export default class ImageGallery extends Component {
+//   state = {
+//     searchResult: null,
+//     error: null,
+//     loading: false,
+//   };
+
+//   componentDidUpdate(prevProps, prevState) {
+//     const prevName = prevProps.formSubmit;
+//     const nextName = this.props.formSubmit;
+
+//     if (prevName !== nextName) {
+//       this.setState({ loading: true, searchResult: null });
+
+//       API.fetchSearch(nextName)
+//         .then(({ hits }) => this.setState({ searchResult: hits }))
+//         .catch(error => this.setState({ error }))
+//         .finally(this.setState({ loading: false }));
+//     }
+//   }
+
+//   render() {
+//     const { searchResult, loading, error } = this.state;
+
+//     return (
+//       <>
+//         {/* {!this.props.formSubmit && <p>Введіть запит</p>} */}
+
+//         {loading && <Loader />}
+
+//         {error &&
+//           toast.error(
+//             `Sorry, there are no images matching your search query. Please try again.`
+//           )}
+//         {/* {error && toast.error(`Nothing was found for the query ${searchResult}`)} */}
+
+//         {searchResult && (
+//           <ul className={css['gallery']}>
+//             {<ImageGalleryItem arrayResult={searchResult} />}
+//           </ul>
+//         )}
+//       </>
+//     );
+//   }
 // }

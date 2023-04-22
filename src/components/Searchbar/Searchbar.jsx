@@ -18,7 +18,7 @@ class Searchbar extends Component {
     e.preventDefault();
 
     if (this.state.inputValue.trim() === '') {
-      toast('Введіть запит');
+      toast('Enter your request');
       return;
     }
     this.props.handleFormSubmit(this.state.inputValue);
