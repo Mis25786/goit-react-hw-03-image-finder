@@ -18,16 +18,40 @@ export default class ImageGallery extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    const { searchResult, error, loading, page } = this.state;
+
     const prevName = prevProps.formSubmit;
     const nextName = this.props.formSubmit;
-    console.log(prevName);
-    console.log(nextName);
+    const prevPage = prevState.page;
+    const nextPage = this.state.page;
+    // console.log(prevName);
+    // console.log(nextName);
+    // console.log(prevPage);
+    // console.log(nextPage);
+
+    console.log('searchResult :>> ', searchResult);
+    console.log('error :>> ', error);
+    console.log('loading :>> ', loading);
+    console.log('page :>> ', page);
 
     if (prevName !== nextName) {
       this.setState({ loading: true, searchResult: null });
 
       this.sendingRequest();
     }
+
+    console.log(prevName !== nextName);
+    console.log(prevPage !== nextPage);
+    // if (prevName !== nextName || prevPage !== nextPage) {
+    //   this.setState({ loading: true, searchResult: null });
+
+    //   const arrayImageNew = this.sendingRequest();
+
+    //   console.log(searchResult);
+    //   console.log(arrayImageNew);
+
+    //   this.setState({ searchResult: [...searchResult, ...arrayImageNew] });
+    // }
   }
 
   sendingRequest = () => {
