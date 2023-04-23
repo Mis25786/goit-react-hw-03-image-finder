@@ -1,10 +1,9 @@
 import css from './Button.module.css';
 
-export default function Button({ nextPage }) {
+export default function Button({ updatePage }) {
   return (
-    <button className={css['button']} type="button">
-      {' '}
-      Load more{' '}
+    <button className={css['button']} type="button" onClick={updatePage}>
+      Load more
     </button>
   );
 }
