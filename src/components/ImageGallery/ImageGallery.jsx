@@ -1,7 +1,7 @@
 import { Component } from 'react';
-// import { fetchSearch } from '../../services/Api';
 import { toast } from 'react-toastify';
 import API from '../../services/Api';
+
 import Button from 'components/Button';
 
 import ImageGalleryItem from '../ImageGalleryItem/';
@@ -20,25 +20,26 @@ export default class ImageGallery extends Component {
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevProps.formSubmit;
     const nextName = this.props.formSubmit;
-    const currPage = this.state.page;
-    const prevPage = prevState.page;
-    // console.log(prevName);
-    // console.log(nextName);
-    // console.log(prevProps);
-    // console.log(prevState);
-    // console.log(currPage);
-    // console.log(prevPage);
-    console.log('this.props :>> ', this.props);
+    console.log(prevName);
+    console.log(nextName);
 
     if (prevName !== nextName) {
       this.setState({ loading: true, searchResult: null });
 
-      API.fetchSearch(nextName)
-        .then(({ hits }) => this.setState({ searchResult: hits }))
-        .catch(error => this.setState({ error }))
-        .finally(this.setState({ loading: false }));
+      this.sendingRequest();
     }
   }
+
+  sendingRequest = () => {
+    API.fetchSearch(this.props.formSubmit, this.state.page)
+      .then(({ hits }) => this.setState({ searchResult: hits }))
+      .catch(error => this.setState({ error }))
+      .finally(this.setState({ loading: false }));
+  };
+
+  updatePage = () => {
+    this.setState(({ page }) => ({ page: page + 1 }));
+  };
 
   render() {
     const { searchResult, loading, error } = this.state;
@@ -60,11 +61,14 @@ export default class ImageGallery extends Component {
             {<ImageGalleryItem arrayResult={searchResult} />}
           </ul>
         )}
-        <Button />
+        <Button updatePage={this.updatePage} />
       </>
     );
   }
 }
+
+//!==================================================================
+
 // import { Component } from 'react';
 // // import { fetchSearch } from '../../services/Api';
 // import { toast } from 'react-toastify';
