@@ -1,43 +1,16 @@
+import PropTypes from 'prop-types';
 import css from './Button.module.css';
 
-export default function Button({ updatePage }) {
+export default function Button({ incrementPage }) {
   return (
-    <button className={css['button']} type="button" onClick={updatePage}>
-      Load more
-    </button>
+    <div className={css['ButtonWrapper']}>
+      <button className={css['Button']} type="button" onClick={incrementPage}>
+        Load more
+      </button>
+    </div>
   );
 }
 
-//============================================
-
-// export default class Button {
-//   constructor({ selector, isHidden }) {
-//     this.button = this.getButton(selector);
-//     if (isHidden) this.hide();
-//     else this.show();
-//   }
-
-//   //* знаходимо потрібну кнопку
-//   getButton(selector) {
-//     return document.querySelector(selector);
-//   }
-
-//   //* додаємо клас на кнопку
-//   hide() {
-//     this.button.classList.add('hidden');
-//   }
-//   //* видаляємо клас з кнопки
-//   show() {
-//     this.button.classList.remove('hidden');
-//   }
-
-//   //* показуємо що контент підвантажується
-//   disabled() {
-//     this.button.disabled = true;
-//     this.button.textContent = 'Loading...';
-//   }
-//   enable() {
-//     this.button.disabled = false;
-//     this.button.textContent = 'Loading more';
-//   }
-// }
+Button.propTypes = {
+  incrementPage: PropTypes.func.isRequired,
+};
