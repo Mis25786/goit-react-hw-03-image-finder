@@ -47,14 +47,20 @@ export class App extends Component {
             new Error(`Nothing was found for the query ${nextName}`)
           );
         })
-        .then(data =>
-          this.setState(prevState => ({
-            ...prevState,
-            searchResult: data.hits,
-            totalHits: data.totalHits,
-            loading: false,
-          }))
-        )
+        .then(data => {
+          if (data.hits.length === 0) {
+            this.setState({ loading: false, searchResult: [] });
+            toast.error(`Nothing was found for the query ${nextName}`);
+            return;
+          } else {
+            this.setState(prevState => ({
+              ...prevState,
+              searchResult: data.hits,
+              totalHits: data.totalHits,
+              loading: false,
+            }));
+          }
+        })
         .catch(error => this.setState({ error }));
     }
 
@@ -82,7 +88,7 @@ export class App extends Component {
           })
         )
         .catch(error => this.setState({ error }))
-        .finally(this.setState({ loading: false }));
+        .finally(() => this.setState({ loading: false }));
     }
   }
 
