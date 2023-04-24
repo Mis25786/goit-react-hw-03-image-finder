@@ -81,8 +81,8 @@ export class App extends Component {
             };
           })
         )
-        .catch(error => this.setState({ error }));
-      // .finally(this.setState({ loading: false }));
+        .catch(error => this.setState({ error }))
+        .finally(this.setState({ loading: false }));
     }
   }
 
