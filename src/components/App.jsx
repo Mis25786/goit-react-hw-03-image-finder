@@ -68,13 +68,6 @@ export class App extends Component {
     });
   };
 
-  // makeRequest = async () => {
-  //   const responsive = await axios.get(
-  //     `https://pixabay.com/api/?q=${this.state.inputValue}&page=${this.state.page}&key=32938330-25a7d9530d370aeaa9b179f57&image_type=photo&orientation=horizontal&per_page=12`
-  //   );
-  //   return responsive.data;
-  // };
-
   render() {
     const { loading, error, searchResult, totalHits } = this.state;
 
