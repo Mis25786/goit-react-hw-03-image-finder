@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { makeRequest } from '../service/api';
+
 import ImageGallery from './ImageGallery';
 import Searchbar from './Searchbar';
 import Loader from './Loader';
@@ -17,16 +19,6 @@ export class App extends Component {
     page: 1,
   };
 
-  handleFormSubmit = value => {
-    this.setState({ inputValue: value });
-  };
-
-  incrementPage = () => {
-    this.setState(prevState => {
-      return { page: prevState.page + 1 };
-    });
-  };
-
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevState.inputValue;
     const nextName = this.state.inputValue;
@@ -36,17 +28,7 @@ export class App extends Component {
     if (prevName !== nextName || prevPage < nextPage) {
       this.setState({ loading: true });
 
-      fetch(
-        `https://pixabay.com/api/?q=${nextName}&page=${nextPage}&key=32938330-25a7d9530d370aeaa9b179f57&image_type=photo&orientation=horizontal&per_page=12`
-      )
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          return Promise.reject(
-            new Error(toast.error(`Sorry, there was an error.`))
-          );
-        })
+      makeRequest(nextName, nextPage)
         .then(data => {
           if (data.hits.length === 0) {
             this.setState({ loading: false, searchResult: [] });
@@ -75,6 +57,23 @@ export class App extends Component {
         .finally(() => this.setState({ loading: false }));
     }
   }
+
+  handleFormSubmit = value => {
+    this.setState({ inputValue: value });
+  };
+
+  incrementPage = () => {
+    this.setState(prevState => {
+      return { page: prevState.page + 1 };
+    });
+  };
+
+  // makeRequest = async () => {
+  //   const responsive = await axios.get(
+  //     `https://pixabay.com/api/?q=${this.state.inputValue}&page=${this.state.page}&key=32938330-25a7d9530d370aeaa9b179f57&image_type=photo&orientation=horizontal&per_page=12`
+  //   );
+  //   return responsive.data;
+  // };
 
   render() {
     const { loading, error, searchResult, totalHits } = this.state;
